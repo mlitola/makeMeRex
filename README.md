@@ -2,7 +2,7 @@
 A command line tool for making regular expression search pattern(s).
 
 ## Description
-Another hobby project to study the great and mighty RegExp. The goal is to keep the tool simple and possibly generate regexp for 2-3 programming languages.
+Another hobby project to study the great and mighty RegEx. The goal is to keep the tool simple and to generate regular expression with proper command line parameters.
 
 ### Requirements:
 
