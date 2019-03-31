@@ -4,13 +4,16 @@ import (
     "flag"
     "fmt"
     "os"
+    "strconv"
 )
 
 func main() {
+    debug := false
     var inputPattern string
+    var regex string
 
     flag.StringVar(&inputPattern, "value", "", "input pattern for which regex is generated")
-    fixedPattern := flag.Bool("fixed", false, "is input value fixed")
+    fixedPattern := flag.Bool("fixed", false, "is input value length is fixed")
     onePerLine := flag.Bool("s", false, "single occurrance per line")
     info := flag.Bool("i", false, "show regular expression common rules")
     
@@ -18,12 +21,50 @@ func main() {
 
     if *info == true {
         printRegularExpressionInfo()
+    }
+
+    if len(inputPattern) == 0 {
+        if *info == false {
+            fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
+            flag.PrintDefaults()
+        }
         os.Exit(1)
     }
 
-    fmt.Println("value:", inputPattern)
-    fmt.Println("fixed:", *fixedPattern)
-    fmt.Println("s:", *onePerLine)
+    if debug {
+        fmt.Println("value:", inputPattern)
+        fmt.Println("fixed:", *fixedPattern)
+        fmt.Println("s:", *onePerLine)
+    }
+
+    fmt.Println("Generating regular expression...")
+
+    regex = analyzeAndMakeCorePattern(inputPattern)
+    
+    if *fixedPattern {
+        regex = addFixedPatternLength(regex)
+    }
+
+    if *onePerLine {
+        regex = addStartAndEndOfLine(regex)
+    }
+
+    fmt.Println("\nGenerated: " + regex + "\n")
+    fmt.Println("Golang: regexp.Compile(\"" + regex + "\")")
+    fmt.Println("JavaScript: new RegExp('" + regex + "')")
+    fmt.Println("Kotlin: new Regex(\"" + regex + "\")\n")
+}
+
+func analyzeAndMakeCorePattern(input string) string {
+    return input
+}
+
+func addFixedPatternLength(input string) string {
+    return "[" + input + "]{" + strconv.Itoa(len(input)) + "}"
+}
+
+func addStartAndEndOfLine(input string) string {
+    return "^" + input + "$"
 }
 
 func printRegularExpressionInfo() {
