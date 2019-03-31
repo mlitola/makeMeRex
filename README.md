@@ -18,3 +18,12 @@ cd $HOME/go/src/makeMeRex
 # then compile a binary
 go build
 ```
+
+### Usage
+```
+# for usage info run with flag --h or --help
+./makeMeRex --help
+
+# to see used regex rules run with flag -i
+./makeMeRex -i
+```
