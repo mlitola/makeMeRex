@@ -4,16 +4,14 @@ import (
     "flag"
     "fmt"
     "os"
-    "strconv"
 )
 
 func main() {
-    debug := false
     var inputPattern string
     var regex string
 
     flag.StringVar(&inputPattern, "value", "", "input pattern for which regex is generated")
-    fixedPattern := flag.Bool("fixed", false, "is input value length is fixed")
+    fixedLength := flag.Bool("fixed", false, "is input value length fixed")
     onePerLine := flag.Bool("s", false, "single occurrance per line")
     info := flag.Bool("i", false, "show regular expression common rules")
     
@@ -31,40 +29,12 @@ func main() {
         os.Exit(1)
     }
 
-    if debug {
-        fmt.Println("value:", inputPattern)
-        fmt.Println("fixed:", *fixedPattern)
-        fmt.Println("s:", *onePerLine)
-    }
-
-    fmt.Println("Generating regular expression...")
-
-    regex = analyzeAndMakeCorePattern(inputPattern)
+    regex = AnalyzeAndMakePattern(inputPattern, fixedLength, onePerLine)
     
-    if *fixedPattern {
-        regex = addFixedPatternLength(regex)
-    }
-
-    if *onePerLine {
-        regex = addStartAndEndOfLine(regex)
-    }
-
-    fmt.Println("\nGenerated: " + regex + "\n")
-    fmt.Println("Golang: regexp.Compile(\"" + regex + "\")")
-    fmt.Println("JavaScript: new RegExp('" + regex + "')")
-    fmt.Println("Kotlin: new Regex(\"" + regex + "\")\n")
-}
-
-func analyzeAndMakeCorePattern(input string) string {
-    return input
-}
-
-func addFixedPatternLength(input string) string {
-    return "[" + input + "]{" + strconv.Itoa(len(input)) + "}"
-}
-
-func addStartAndEndOfLine(input string) string {
-    return "^" + input + "$"
+    fmt.Println("\nGenerated regex: ", regex, "\n")
+    fmt.Println("\n◇ Golang: regexp.Compile(\"" + regex + "\")")
+    fmt.Println("\n◈ JavaScript: new RegExp('" + regex + "')")
+    fmt.Println("\n◆ Kotlin: new Regex(\"" + regex + "\")\n")
 }
 
 func printRegularExpressionInfo() {
@@ -82,8 +52,10 @@ func printRegularExpressionInfo() {
 
     fmt.Println("\nCharacters")
     fmt.Println(".      any but new line")
-    fmt.Println("[abc]  a, b or c")
-    fmt.Println("[a-z]  from a to z")
+    fmt.Println("[abc]  character is a, b or c")
+    fmt.Println("[a-z]  character is in range of a to z")
+    fmt.Println("[A-Z]  character is capital letter from A to Z")
+    fmt.Println("[0-9]  character is a number from 0 to 9")
     fmt.Println("[^abc] anything but a, b or c")
     fmt.Println("\\w     is word")
     fmt.Println("\\d     is digit")
