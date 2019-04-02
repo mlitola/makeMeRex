@@ -10,8 +10,8 @@ func main() {
     var inputPattern string
     var regex string
 
-    flag.StringVar(&inputPattern, "value", "", "input pattern for which regex is generated")
-    fixedLength := flag.Bool("fixed", false, "is input value length fixed")
+    flag.StringVar(&inputPattern, "value", "", "input pattern for which regex is generated,\nfor whitespaced input use quotation marks")
+    fixedLength := flag.Bool("fixed", false, "is input pattern and length fixed")
     onePerLine := flag.Bool("s", false, "single occurrance per line")
     info := flag.Bool("i", false, "show regular expression common rules")
     
@@ -31,7 +31,7 @@ func main() {
 
     regex = AnalyzeAndMakePattern(inputPattern, fixedLength, onePerLine)
     
-    fmt.Println("\nGenerated regex: ", regex, "\n")
+    fmt.Println("\nGenerated regex: ", regex)
     fmt.Println("\n◇ Golang: regexp.Compile(\"" + regex + "\")")
     fmt.Println("\n◈ JavaScript: new RegExp('" + regex + "')")
     fmt.Println("\n◆ Kotlin: new Regex(\"" + regex + "\")\n")

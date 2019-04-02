@@ -5,10 +5,11 @@ import "strconv"
 type CharType int
 
 const (
-	Number		CharType = 0
-	UpperCase 	CharType = 1
-	LowerCase	CharType = 2
-	Undefined	CharType = 3
+	WhiteSpace  CharType = 0
+	Number		CharType = 1
+	UpperCase 	CharType = 2
+	LowerCase	CharType = 3
+	Undefined	CharType = 4
 )
 
 func AnalyzeAndMakePattern(input string, fixedLength *bool, onePerLine *bool) string {
@@ -22,24 +23,30 @@ func AnalyzeAndMakePattern(input string, fixedLength *bool, onePerLine *bool) st
 	}
 
 	for i, char := range input {		
-		if (isCharAUpperCase(char)) {
+		if (isUpperCase(char)) {
 			if (prevChar != UpperCase) {
 				regex += addRuleWithLength(prevChar, (i-prevIndex), input[prevIndex:i], openLengthPattern)
 				prevIndex = i
 			}
 			prevChar = UpperCase
-		} else if (isCharALowerCase(char)) {
+		} else if (isLowerCase(char)) {
 			if (prevChar != LowerCase) {
 				regex += addRuleWithLength(prevChar, (i-prevIndex),input[prevIndex:i], openLengthPattern)
 				prevIndex = i
 			}
 			prevChar = LowerCase
-		} else if (isCharANumber(char)) {
+		} else if (isNumber(char)) {
 			if (prevChar != Number) {
 				regex += addRuleWithLength(prevChar, (i-prevIndex), input[prevIndex:i], openLengthPattern)
 				prevIndex = i
 			}
 			prevChar = Number
+		} else if (isWhiteSpace(char)) {
+			if (prevChar != WhiteSpace) {
+				regex += addRuleWithLength(prevChar, (i-prevIndex), input[prevIndex:i], openLengthPattern)
+				prevIndex = i
+			}
+			prevChar = WhiteSpace
 		} else {
 			if (prevChar != Undefined) {
 				regex += addRuleWithLength(prevChar, (i-prevIndex), input[prevIndex:i], openLengthPattern)
@@ -65,9 +72,11 @@ func addRuleWithLength(charType CharType, length int, charValues string, openLen
 	if (charType == UpperCase) {
 		return "[A-Z]" + addFixedPatternLength(length, openLengthPattern)
 	} else if (charType == LowerCase) {
-		return "[a-z]{" + addFixedPatternLength(length, openLengthPattern)
+		return "[a-z]" + addFixedPatternLength(length, openLengthPattern)
 	} else if (charType == Number) {
-		return "[0-9]{" + addFixedPatternLength(length, openLengthPattern)
+		return "[0-9]" + addFixedPatternLength(length, openLengthPattern)
+	} else if (charType == WhiteSpace) {
+		return "\\s" + addFixedPatternLength(length, openLengthPattern)
 	}
 	return charValues
 }
@@ -83,14 +92,18 @@ func addStartAndEndOfLine(input string) string {
     return "^" + input + "$"
 }
 
-func isCharAUpperCase(charValue rune) bool {
+func isUpperCase(charValue rune) bool {
     return (charValue > 64 && charValue < 91)
 }
 
-func isCharALowerCase(charValue rune) bool {
+func isLowerCase(charValue rune) bool {
     return (charValue > 96 && charValue < 123)
 }
 
-func isCharANumber(charValue rune) bool {
+func isNumber(charValue rune) bool {
     return (charValue > 47 && charValue < 58)
+}
+
+func isWhiteSpace(charValue rune) bool {
+	return charValue == 32
 }
