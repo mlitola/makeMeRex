@@ -12,8 +12,8 @@ func main() {
 
     flag.StringVar(&inputPattern, "value", "", "input pattern for which regex is generated,\nfor whitespaced input use quotation marks")
     fixedLength := flag.Bool("fixed", false, "is input pattern and length fixed")
-    onePerLine := flag.Bool("s", false, "single occurrance per line")
-    info := flag.Bool("i", false, "show regular expression common rules")
+    onePerLine := flag.Bool("single", false, "single occurrance per line")
+    info := flag.Bool("rules", false, "show regular expression common rules")
     
     flag.Parse()
 

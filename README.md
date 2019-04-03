@@ -25,5 +25,14 @@ go build
 ./makeMeRex --help
 
 # to see used regex rules run with flag -i
-./makeMeRex -i
+./makeMeRex -rules
+
+# example execution
+./makeMeRex -value="+358 40 1234567" -fixed
+
+Generated regex:  +[0-9]{3}\s{1}[0-9]{2}\s{1}[0-9]{7}
+
+◇ Golang: regexp.Compile("+[0-9]{3}\s{1}[0-9]{2}\s{1}[0-9]{7}")
+◈ JavaScript: new RegExp('+[0-9]{3}\s{1}[0-9]{2}\s{1}[0-9]{7}')
+◆ Kotlin: new Regex("+[0-9]{3}\s{1}[0-9]{2}\s{1}[0-9]{7}")
 ```
