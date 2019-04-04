@@ -5,11 +5,12 @@ import "strconv"
 type CharType int
 
 const (
-	WhiteSpace  CharType = 0
+	Undefined	CharType = 0
 	Number		CharType = 1
 	UpperCase 	CharType = 2
 	LowerCase	CharType = 3
-	Undefined	CharType = 4
+	WhiteSpace  CharType = 4
+	WildCard 	CharType = 5
 )
 
 func AnalyzeAndMakePattern(input string, fixedLength *bool, onePerLine *bool) string {
@@ -47,6 +48,12 @@ func AnalyzeAndMakePattern(input string, fixedLength *bool, onePerLine *bool) st
 				prevIndex = i
 			}
 			prevChar = WhiteSpace
+		} else if (isWildCard(char)) {
+			if (prevChar != WildCard) {
+				regex += addRuleWithLength(prevChar, (i-prevIndex), input[prevIndex:i], openLengthPattern)
+				prevIndex = i
+			}
+			prevChar = WildCard
 		} else {
 			if (prevChar != Undefined) {
 				regex += addRuleWithLength(prevChar, (i-prevIndex), input[prevIndex:i], openLengthPattern)
@@ -77,6 +84,8 @@ func addRuleWithLength(charType CharType, length int, charValues string, openLen
 		return "[0-9]" + addFixedPatternLength(length, openLengthPattern)
 	} else if (charType == WhiteSpace) {
 		return "\\s" + addFixedPatternLength(length, openLengthPattern)
+	} else if (charType == WildCard) {
+		return "." + addFixedPatternLength(length, openLengthPattern)
 	}
 	return charValues
 }
@@ -106,4 +115,8 @@ func isNumber(charValue rune) bool {
 
 func isWhiteSpace(charValue rune) bool {
 	return charValue == 32
+}
+
+func isWildCard(charValue rune) bool {
+	return charValue == 42
 }
