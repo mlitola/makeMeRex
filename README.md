@@ -24,9 +24,44 @@ go build
 # for usage info run with flag --h or --help
 ./makeMeRex --help
 
+Usage of ./makeMeRex:
+  -fixed
+    	is input pattern and length fixed
+  -rules
+    	show regular expression common rules
+  -single
+    	single occurrance per line
+  -value string
+    	input pattern for which regex is generated,
+    	for whitespaced input use quotation marks, 
+    	for wildcard use * symbol
+```
+```
 # to see used regex rules run with flag -i
 ./makeMeRex -rules
 
+Using the following Regular Expression rules:
+^      match to beginning of line
+$      match to end of line
+{n}    exactly n item(s)
+{n,}   n or more items
+{n,m}  between n to m items
+?      0 or 1 occurrences
+*      0 or more occurrences
++      1 or more occurrences
+.      any but new line
+[abc]  character is a, b or c
+[a-z]  character is in range of a to z
+[A-Z]  character is capital letter from A to Z
+[0-9]  character is a number from 0 to 9
+[^abc] anything but a, b or c
+\w     is word
+\d     is digit
+\s     is white space
+\n     is new line
+\t     is tab
+```
+```
 # example execution
 ./makeMeRex -value="+358 40 1234567" -fixed
 

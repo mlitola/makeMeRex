@@ -38,9 +38,7 @@ func main() {
 }
 
 func printRegularExpressionInfo() {
-    fmt.Println("\nUsing the following Regular Expression rules:")
-
-    fmt.Println("\nAssertions and Quantifiers")
+    fmt.Println("Using the following Regular Expression rules:")
     fmt.Println("^      match to beginning of line")
     fmt.Println("$      match to end of line")
     fmt.Println("{n}    exactly n item(s)")
@@ -49,8 +47,6 @@ func printRegularExpressionInfo() {
     fmt.Println("?      0 or 1 occurrences")
     fmt.Println("*      0 or more occurrences")
     fmt.Println("+      1 or more occurrences")
-
-    fmt.Println("\nCharacters")
     fmt.Println(".      any but new line")
     fmt.Println("[abc]  character is a, b or c")
     fmt.Println("[a-z]  character is in range of a to z")
@@ -62,6 +58,5 @@ func printRegularExpressionInfo() {
     fmt.Println("\\s     is white space")
     fmt.Println("\\n     is new line")
     fmt.Println("\\t     is tab")
-
     fmt.Println("")
 }
