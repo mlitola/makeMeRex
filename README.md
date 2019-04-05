@@ -37,7 +37,7 @@ Usage of ./makeMeRex:
     	for wildcard use * symbol
 ```
 ```
-# to see used regex rules run with flag -i
+# to see used regex rules run with flag -rules
 ./makeMeRex -rules
 
 Using the following Regular Expression rules:
